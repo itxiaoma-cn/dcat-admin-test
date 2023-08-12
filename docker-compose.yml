@@ -1,0 +1,30 @@
+version: '3.5'
+
+services:
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: always
+    volumes:
+      - ./config/nginx:/etc/nginx/conf.d
+      - ./logs/nginx:/var/log/nginx
+      - ./workspace:/workspace
+    ports:
+      - 82:80
+      - 443:443
+
+  php:
+    image: itxiaoma/php:8.1.0
+    #build:
+    #  context: ./
+    #  dockerfile: Dockerfile_php
+    container_name: php
+    restart: always
+    command: php-fpm
+    ports:
+      - 9000:9000
+    volumes:
+      - ./workspace:/workspace
+    stdin_open: true
+    tty: true
